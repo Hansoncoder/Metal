@@ -26,6 +26,8 @@ class Node {
     var rotationX:Float = 0.0
     var rotationY:Float = 0.0
     var rotationZ:Float = 0.0
+    // 缩放
+    var scale:Float     = 1.0
     
     init(name: String, vertices: Array<Vertex>, device: MTLDevice) {
         // 1. 将顶点数组 转为 float数组
@@ -77,16 +79,16 @@ class Node {
         let renderEncoder = commandBuffer.renderCommandEncoderWithDescriptor(renderPassDescriptor)
         renderEncoder.setCullMode(MTLCullMode.Front)
         renderEncoder.setRenderPipelineState(pipelineState)
+        // 2.3.0 添加数据缓冲区
         renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, atIndex: 0)
-        
+        // 2.3.1 添加变换缓冲区
         var nodeModelMatrix = modelMatrix()
         nodeModelMatrix = parentModelViewMatrix * nodeModelMatrix
         let bufferPointer = uniformBuffer.contents()
-        
         memcpy(bufferPointer, nodeModelMatrix.matrix, Int(sizeof(Float) * 16))
         memcpy(bufferPointer + sizeof(Float) * 16, projectionMatrix.matrix, sizeof(Float) * 16)
         renderEncoder.setVertexBuffer(uniformBuffer, offset: 0, atIndex: 1)
-        
+        // 2.3.2 绘制顶点数据
         renderEncoder.drawPrimitives(.Triangle, vertexStart: 0, vertexCount: vertexCount, instanceCount: vertexCount / 3)
         renderEncoder.endEncoding()
         
@@ -97,9 +99,14 @@ class Node {
     }
     
     func modelMatrix() -> Matrix4 {
+        // 创建平移基数
         let translationMatrix = Matrix4.translationMatrix(x: positionX, y: positionY, z: positionZ)
+        // 创建旋转基数
         let rotationMatrix = Matrix4.rotateAround(xAngleRad: rotationX, yAngleRad: rotationY, zAngleRad: rotationZ)
-        return translationMatrix * rotationMatrix
+        // 创建缩放基数
+        let scaleMatrix = Matrix4.scale(sx: scale,sy: scale,sz: scale)
+        // 返回三个基数叠加效果
+        return translationMatrix * rotationMatrix * scaleMatrix
     }
     
 }

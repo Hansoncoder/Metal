@@ -33,6 +33,7 @@ struct Matrix4 {
         0.0, 0.0, 0.0, 1.0
     ]
 
+    
     static func perspectiveMatrix(fov fov: Float, aspect: Float, near: Float, far: Float) -> Matrix4 {
         var matrix = Matrix4()
         let f = 1.0 / tanf(fov / 2.0)
@@ -47,6 +48,15 @@ struct Matrix4 {
         return matrix
     }
 
+    /**
+     平移变换
+     
+     - parameter x: 沿x轴方向平移（值域[-1,1]）
+     - parameter y: 沿y轴方向平移（值域[-1,1]）
+     - parameter z: 沿z轴方向平移（值域[-1,1]）
+     
+     - returns: 返回平移后的基数值（需要使用原始值 * 基数值）
+     */
     static func translationMatrix(x x: Float, y: Float, z: Float) -> Matrix4 {
         var matrix = Matrix4()
 
@@ -57,7 +67,6 @@ struct Matrix4 {
         return matrix
     }
 
-    /** 根据 坐标点（x、y、z）旋转 angle度*/
     static func rotationMatrix(angle angle: Float, x: Float, y: Float, z: Float) -> Matrix4 {
         var matrix = Matrix4()
 
@@ -65,6 +74,7 @@ struct Matrix4 {
         let ci = 1.0 - c
         let s = sinf(angle)
 
+        // 这里使用变量减少计算次数（设计思想：空间换取时间）
         let xy = x * y * ci
         let xz = x * z * ci
         let yz = y * z * ci
@@ -75,7 +85,7 @@ struct Matrix4 {
         matrix.matrix[0] = x * x * ci + c
         matrix.matrix[1] = xy + zs
         matrix.matrix[2] = xz - ys
-        matrix.matrix[4] = xy - xz
+        matrix.matrix[4] = xy - zs
         matrix.matrix[5] = y * y * ci + c
         matrix.matrix[6] = yz + xs
         matrix.matrix[8] = xz + ys
@@ -85,7 +95,15 @@ struct Matrix4 {
         return matrix
     }
     
-    /** 根据x、y、z轴旋转 */
+    /**
+     根据x、y、z轴旋转
+     
+     - parameter xAngleRad: 根据x轴旋转的弧度
+     - parameter yAngleRad: 根据y轴旋转的弧度
+     - parameter zAngleRad: 根据z轴旋转的弧度
+     
+     - returns: 旋转后的基数值（需要使用原始值 * 基数值）
+     */
     static func rotateAround(xAngleRad xAngleRad: Float, yAngleRad: Float, zAngleRad: Float) -> Matrix4 {
         var matrix = Matrix4()
         if xAngleRad != 0.0 {
@@ -100,8 +118,31 @@ struct Matrix4 {
         return matrix
     }
     
+    /** 对4*4的矩阵缩放 */
+    static func scale(sx sx: Float, sy: Float, sz: Float) -> Matrix4 {
+        var matrix = Matrix4()
+        matrix.matrix[0] *= sx
+        matrix.matrix[1] *= sx
+        matrix.matrix[2] *= sx
+        matrix.matrix[3] *= sx
+        matrix.matrix[4] *= sy
+        matrix.matrix[5] *= sy
+        matrix.matrix[6] *= sy
+        matrix.matrix[7] *= sy
+        matrix.matrix[8] *= sz
+        matrix.matrix[9] *= sz
+        matrix.matrix[10] *= sz
+        matrix.matrix[11] *= sz
+        return matrix
+    }
 }
 
+/** 角度变弧度 */
+func degreesToRadians(degrees: Float) -> Float {
+    return degrees * (Float(M_PI) / 180)
+}
+
+// 重载 * 号运算符
 func * (left: Matrix4, right: Matrix4) -> Matrix4 {
     let m1 = left.matrix
     let m2 = right.matrix

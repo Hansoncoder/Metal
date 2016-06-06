@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C0848D241D019ADE00331C56 /* Matrix4.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0848D231D019ADE00331C56 /* Matrix4.swift */; };
+		C048AACD1D055FDB009AA807 /* Matrix4.swift in Sources */ = {isa = PBXBuildFile; fileRef = C048AACC1D055FDB009AA807 /* Matrix4.swift */; };
 		C0BC52C01D0043E700A82040 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BC52BF1D0043E700A82040 /* AppDelegate.swift */; };
 		C0BC52C21D0043E700A82040 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BC52C11D0043E700A82040 /* ViewController.swift */; };
 		C0BC52C51D0043E700A82040 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C0BC52C31D0043E700A82040 /* Main.storyboard */; };
@@ -68,7 +68,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C0848D231D019ADE00331C56 /* Matrix4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matrix4.swift; sourceTree = "<group>"; };
+		C048AACC1D055FDB009AA807 /* Matrix4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matrix4.swift; sourceTree = "<group>"; };
 		C0BC52BC1D0043E700A82040 /* MetalDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0BC52BF1D0043E700A82040 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C0BC52C11D0043E700A82040 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -259,8 +259,8 @@
 		C0EC663E1D0114D600DEF284 /* MetalCube */ = {
 			isa = PBXGroup;
 			children = (
-				C0848D231D019ADE00331C56 /* Matrix4.swift */,
 				C0EC663F1D0114D600DEF284 /* AppDelegate.swift */,
+				C048AACC1D055FDB009AA807 /* Matrix4.swift */,
 				C0EC66411D0114D600DEF284 /* ViewController.swift */,
 				C0EC66431D0114D600DEF284 /* Main.storyboard */,
 				C0EC66461D0114D600DEF284 /* Assets.xcassets */,
@@ -584,13 +584,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0EC66421D0114D600DEF284 /* ViewController.swift in Sources */,
+				C048AACD1D055FDB009AA807 /* Matrix4.swift in Sources */,
 				C0EC66401D0114D600DEF284 /* AppDelegate.swift in Sources */,
 				C0EC66501D01152E00DEF284 /* Vertex.swift in Sources */,
 				C0EC66561D011FD100DEF284 /* Triangle.swift in Sources */,
 				C0EC66521D01156700DEF284 /* Node.swift in Sources */,
 				C0EC66581D01272700DEF284 /* Cube.swift in Sources */,
 				C0EC66541D0119D100DEF284 /* Shaders.metal in Sources */,
-				C0848D241D019ADE00331C56 /* Matrix4.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -908,6 +908,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MetalCube/Info.plist;
@@ -915,6 +916,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hansoncoder.MetalCube;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "MetalCube/MetalCube-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -922,6 +925,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MetalCube/Info.plist;
@@ -929,6 +933,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hansoncoder.MetalCube;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "MetalCube/MetalCube-Bridging-Header.h";
 			};
 			name = Release;
 		};

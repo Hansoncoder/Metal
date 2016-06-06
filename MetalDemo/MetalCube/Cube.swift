@@ -12,21 +12,21 @@ import Metal
 class Cube: Node {
     init(device: MTLDevice) {
         // 顶点数据
-        let vertexA = Vertex(x: -0.5, y: 0.5, z: 0.5, w: 1.0, r: 1.0, g: 0.0, b: 0.0, a: 1.0)
-        let vertexB = Vertex(x: -0.5, y: -0.5, z: 0.5, w: 1.0, r: 0.0, g: 1.0, b: 0.0, a: 1.0)
-        let vertexC = Vertex(x: 0.5, y: -0.5, z: 0.5, w: 1.0, r: 0.0, g: 0.0, b: 1.0, a: 1.0)
-        let vertexD = Vertex(x: 0.5, y: 0.5, z: 0.5, w: 1.0, r: 0.1, g: 0.6, b: 0.4, a: 1.0)
-        let vertexQ = Vertex(x: -0.5, y: 0.5, z: -0.5, w: 1.0, r: 0.2, g: 0.3, b: 0.5, a: 1.0)
-        let vertexR = Vertex(x: 0.5, y: 0.5, z: -0.5, w: 1.0, r: 0.4, g: 0.2, b: 0.3, a: 1.0)
-        let vertexS = Vertex(x: -0.5, y: -0.5, z: -0.5, w: 1.0, r: 0.6, g: 0.1, b: 0.7, a: 1.0)
-        let vertexT = Vertex(x: 0.5, y: -0.5, z: -0.5, w: 1.0, r: 0.4, g: 0.8, b: 1.0, a: 1.0)
+        let A = Vertex(x: -1.0, y:  1.0, z:  1.0, w: 1.0, r: 1.0, g: 0.0, b: 0.0, a: 1.0)
+        let B = Vertex(x: -1.0, y: -1.0, z:  1.0, w: 1.0, r: 0.5, g: 1.0, b: 0.5, a: 1.0)
+        let C = Vertex(x:  1.0, y: -1.0, z:  1.0, w: 1.0, r: 0.0, g: 0.0, b: 1.0, a: 1.0)
+        let D = Vertex(x:  1.0, y:  1.0, z:  1.0, w: 1.0, r: 0.0, g: 0.0, b: 0.0, a: 1.0)
+        let Q = Vertex(x: -1.0, y:  1.0, z: -1.0, w: 1.0, r: 0.0, g: 1.0, b: 1.0, a: 1.0)
+        let R = Vertex(x:  1.0, y:  1.0, z: -1.0, w: 1.0, r: 1.0, g: 1.0, b: 0.0, a: 1.0)
+        let S = Vertex(x: -1.0, y: -1.0, z: -1.0, w: 1.0, r: 1.0, g: 0.0, b: 1.0, a: 1.0)
+        let T = Vertex(x:  1.0, y: -1.0, z: -1.0, w: 1.0, r: 0.0, g: 0.0, b: 0.0, a: 1.0)
         
-        let vertexArr = [vertexA, vertexB, vertexC, vertexD, vertexA, vertexC,
-                         vertexA, vertexB, vertexS, vertexA, vertexQ, vertexS,
-                         vertexA, vertexD, vertexR, vertexA, vertexQ, vertexR,
-                         vertexC, vertexD, vertexR, vertexC, vertexT, vertexR,
-                         vertexB, vertexC, vertexT, vertexB, vertexS, vertexT,
-                         vertexS, vertexT, vertexR, vertexS, vertexQ, vertexR]
+        let vertexArr = [A, B, C,  A, C, D, // 前面
+                         R, T, S,  Q, R, S, // 后面
+                         Q, S, B,  Q, B, A, // 左面
+                         D, C, T,  D, T, R, // 右面
+                         Q, A, D,  Q, D, R, // 上面
+                         B, S, T,  B, T, C] // 下面
         // 创建节点
         super.init(name: "Cube", vertices: vertexArr, device: device)
         

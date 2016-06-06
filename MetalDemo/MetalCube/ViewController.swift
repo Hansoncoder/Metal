@@ -18,6 +18,10 @@ class ViewController: UIViewController {
     var cube: Cube!
     var projectionMatrix: Matrix4!
     var worldModelMatrix: Matrix4!
+    var backgroundColor: MTLClearColor!
+    
+    var lastFrameTimestamp: CFTimeInterval = 0.0
+    var rotaion: Float = 0.0;
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,9 +70,14 @@ class ViewController: UIViewController {
         // 2.0 创建一个Display link
         cube = Cube(device: device)
         
-        projectionMatrix = Matrix4.perspectiveMatrix(fov: 85.0, aspect: Float(self.view.bounds.size.width / self.view.bounds.size.height), near: 0.01, far: 100)
-        worldModelMatrix = Matrix4.translationMatrix(x: 0.0, y: 0.0, z: -0.6)
+        // 设置透视窗口
+        projectionMatrix = Matrix4.perspectiveMatrix(fov: degreesToRadians(85.0), aspect: Float(self.view.bounds.size.width / self.view.bounds.size.height), near: 0.01, far: 100)
         
+        // 对正方体做初始变换（沿z轴移动-5.0，按y轴旋转45度）
+        worldModelMatrix = Matrix4.translationMatrix(x: 0.0, y: 0.0, z: -5.0)
+        worldModelMatrix = Matrix4.rotateAround(xAngleRad: 0.0, yAngleRad: degreesToRadians(-45), zAngleRad: 0.0) * worldModelMatrix
+        backgroundColor = MTLClearColor(red: 1, green: 1, blue: 1, alpha: 1)
+
         timer = CADisplayLink(target: self, selector: #selector(ViewController.gameloop))
         timer.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
     }
@@ -78,29 +87,21 @@ class ViewController: UIViewController {
         
         guard let drawable = metalLayer.nextDrawable() else { return }
         
-        let clearColor = MTLClearColor(red: 1, green: 1, blue: 1, alpha: 1)
+        // 设置根据z轴旋转
+        rotaion += 1
+        rotaion %= 360
+        cube.rotationZ = degreesToRadians(rotaion)
         
-        cube.rotationZ = 45
-        cube.render(commandQueue, pipelineState: pipelineState, drawable: drawable, parentModelViewMatrix: worldModelMatrix, projectionMatrix: projectionMatrix, clearColor: clearColor)
+        // 调用渲染方法
+        cube.render(commandQueue, pipelineState: pipelineState, drawable: drawable, parentModelViewMatrix: worldModelMatrix, projectionMatrix: projectionMatrix, clearColor: backgroundColor)
         
     }
     
+    // 该方法每秒调用60次
     func gameloop() {
         autoreleasepool {
             self.render()
         }
     }
-    
-    // 将图层改为正方形
-    override func viewDidLayoutSubviews() {
-        let parentSize = view.bounds.size
-        let minSize = min(parentSize.width,parentSize.height)
-        let frame = CGRectMake((parentSize.width - minSize) * 0.5,
-                               (parentSize.height - minSize) * 0.5,
-                               minSize,
-                               minSize)
-        metalLayer.frame = frame
-    }
-
 }
 
