@@ -916,7 +916,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hansoncoder.MetalCube;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "MetalCube/MetalCube-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -933,7 +933,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hansoncoder.MetalCube;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "MetalCube/MetalCube-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;
 		};
